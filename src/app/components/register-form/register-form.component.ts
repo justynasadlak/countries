@@ -48,7 +48,7 @@ export class RegisterFormComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       firstName: [''],
       lastName: [''],
-      country: ['', this.containsInCountriesListValidator()]
+      country: ['', this.isOnCountriesListValidator()]
     });
 
     this.population$ = this.getCountryPopulation();
@@ -60,14 +60,9 @@ export class RegisterFormComponent implements OnInit {
     );
   }
 
-  private containsInCountriesListValidator(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } => {
-      console.log(control.value.name)
-      // if(this.countries) {
-        console.log(this.countries && control.value ? { valid : !!this.countries.find(c => c.name === control.value.name) } : null);
-      // }
-
-      return this.countries && control.value ? { valid : !!this.countries.find(c => c.name === control.value.name) } : null;
-    }
+  private isOnCountriesListValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } => {
+      return !(this.countries && this.countries.find(country => country.name === control.value.name)) ? { valid: true } : null;
+    };
   }
 }
