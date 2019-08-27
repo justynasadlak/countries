@@ -16,10 +16,12 @@ export class RegisterFormComponent implements OnInit {
   countries: Country[];
   registerForm: FormGroup;
   population$: Observable<number>;
+  filteredCountries: Country[];
 
   constructor(
     private formBuilder: FormBuilder,
-    private countryDataService: CountryDataService) {
+    private countryDataService: CountryDataService
+  ) {
   }
 
   ngOnInit(): void {
@@ -52,6 +54,7 @@ export class RegisterFormComponent implements OnInit {
     });
 
     this.population$ = this.getCountryPopulation();
+    this.setFilteredCountries();
   }
 
   private getCountryPopulation(): Observable<number> {
@@ -64,5 +67,19 @@ export class RegisterFormComponent implements OnInit {
     return (control: AbstractControl): { [key: string]: boolean } => {
       return !(this.countries && this.countries.find(country => country.name === control.value.name)) ? { valid: true } : null;
     };
+  }
+
+  private setFilteredCountries(): void {
+    this.registerForm.controls.country.valueChanges.subscribe(value => {
+      console.log(value);
+      if(!(value instanceof Country)) {
+        this.filteredCountries = this.filter(this.countries, value)
+      } 
+    });
+  }
+
+  private filter(countries: Country[], value: string): Country[] {
+    const filterValue: string = value.toLowerCase();
+    return countries.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 }
