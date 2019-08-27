@@ -26,6 +26,10 @@ export class RegisterFormComponent implements OnInit {
     });
   }
 
+  onSubmit(): void {
+    console.log(this.registerForm.value);
+  }
+
   private initCountries(): void {
     this.countryDataService.getAllCountries().subscribe(res => this.countries = res);
   }
