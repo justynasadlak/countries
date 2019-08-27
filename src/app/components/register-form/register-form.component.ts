@@ -3,6 +3,8 @@ import { Country } from '../../models/country';
 import { CountryDataService } from '../../services/country-data.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DataToSend } from '../../models/data-to-send';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register-form',
@@ -13,10 +15,12 @@ export class RegisterFormComponent implements OnInit {
 
   countries: Country[];
   registerForm: FormGroup;
+  population$: Observable<number>;
 
   constructor(
     private formBuilder: FormBuilder,
-    private countryDataService: CountryDataService) { }
+    private countryDataService: CountryDataService) {
+  }
 
   ngOnInit(): void {
     this.initCountries();
@@ -46,5 +50,13 @@ export class RegisterFormComponent implements OnInit {
       lastName: [''],
       country: ['']
     });
+
+    this.population$ = this.getCountryPopulation();
+  }
+
+  private getCountryPopulation(): Observable<number> {
+    return this.registerForm.controls.country.valueChanges.pipe(
+      map(country => country.population)
+    );
   }
 }

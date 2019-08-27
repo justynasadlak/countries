@@ -13,7 +13,7 @@
         {{ country.name }}
       </mat-option>
     </mat-autocomplete>
+    <mat-hint>Population: {{ population$ | async }}</mat-hint>
   </mat-form-field>
   <button mat-raised-button color="primary" (click)="onSubmit()">Submit</button>
-  <!--<mat-hint>Population: {{ country.population }}</mat-hint>-->
 </form>
