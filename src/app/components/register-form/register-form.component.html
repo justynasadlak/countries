@@ -9,7 +9,7 @@
     <input matInput placeholder="Country" formControlName="country"
            [matAutocomplete]="countriesPicker">
     <mat-autocomplete #countriesPicker="matAutocomplete">
-      <mat-option *ngFor="let country of countries">
+      <mat-option *ngFor="let country of countries" [value]="country.name">
         {{ country.name }}
       </mat-option>
     </mat-autocomplete>
