@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Country } from '../../models/country';
 import { CountryDataService } from '../../services/country-data.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn } from '@angular/forms';
 import { DataToSend } from '../../models/data-to-send';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -48,7 +48,7 @@ export class RegisterFormComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       firstName: [''],
       lastName: [''],
-      country: ['']
+      country: ['', this.containsInCountriesListValidator()]
     });
 
     this.population$ = this.getCountryPopulation();
@@ -58,5 +58,16 @@ export class RegisterFormComponent implements OnInit {
     return this.registerForm.controls.country.valueChanges.pipe(
       map(country => country.population)
     );
+  }
+
+  private containsInCountriesListValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } => {
+      console.log(control.value.name)
+      // if(this.countries) {
+        console.log(this.countries && control.value ? { valid : !!this.countries.find(c => c.name === control.value.name) } : null);
+      // }
+
+      return this.countries && control.value ? { valid : !!this.countries.find(c => c.name === control.value.name) } : null;
+    }
   }
 }
