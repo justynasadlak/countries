@@ -8,8 +8,8 @@
   <mat-form-field>
     <input matInput placeholder="Country" formControlName="country"
            [matAutocomplete]="countriesPicker">
-    <mat-autocomplete #countriesPicker="matAutocomplete">
-      <mat-option *ngFor="let country of countries" [value]="country.name">
+    <mat-autocomplete #countriesPicker="matAutocomplete" [displayWith]="displayCountryName">
+      <mat-option *ngFor="let country of countries" [value]="country">
         {{ country.name }}
       </mat-option>
     </mat-autocomplete>
