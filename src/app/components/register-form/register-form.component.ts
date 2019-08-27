@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Country } from '../../models/country';
+import { CountryDataService } from '../../services/country-data.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-register-form',
@@ -7,9 +10,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterFormComponent implements OnInit {
 
-  constructor() { }
+  countries: Country[];
+  registerForm: FormGroup;
 
-  ngOnInit() {
+  constructor(
+    private formBuilder: FormBuilder,
+    private countryDataService: CountryDataService) { }
+
+  ngOnInit(): void {
+    this.initCountries();
+    this.registerForm = this.formBuilder.group({
+      firstName: [''],
+      lastName: [''],
+      country: ['']
+    });
   }
 
+  private initCountries(): void {
+    this.countryDataService.getAllCountries().subscribe(res => this.countries = res);
+  }
 }

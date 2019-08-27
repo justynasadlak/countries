@@ -1,19 +1,18 @@
-<form>
+<form [formGroup]="registerForm">
   <mat-form-field>
     <input matInput placeholder="First name" formControlName="firstName">
   </mat-form-field>
   <mat-form-field>
     <input matInput placeholder="Last name" formControlName="lastName">
-    <mat-hint align="start">Population</mat-hint>
   </mat-form-field>
   <mat-form-field>
-    <input placeholder="Country" matInput formControlName="country"
-           [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-        {{option}}
+    <input matInput placeholder="Country" formControlName="country"
+           [matAutocomplete]="countriesPicker">
+    <mat-autocomplete #countriesPicker="matAutocomplete">
+      <mat-option *ngFor="let country of countries">
+        {{ country.name }}
       </mat-option>
     </mat-autocomplete>
+    <mat-hint>Population</mat-hint>
   </mat-form-field>
 </form>
-
