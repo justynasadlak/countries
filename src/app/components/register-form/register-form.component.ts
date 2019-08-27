@@ -71,10 +71,9 @@ export class RegisterFormComponent implements OnInit {
 
   private setFilteredCountries(): void {
     this.registerForm.controls.country.valueChanges.subscribe(value => {
-      console.log(value);
-      if(!(value instanceof Country)) {
-        this.filteredCountries = this.filter(this.countries, value)
-      } 
+      if (!(value instanceof Country)) {
+        this.filteredCountries = this.filter(this.countries, value);
+      }
     });
   }
 
